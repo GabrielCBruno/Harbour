@@ -4,9 +4,9 @@ nIdade := 0
 
 @ 01,01 to 10,40
 
-@ 02,03 say "Digite a idade: " 
+@ 02,03 say "Digite a idade: "
 
-@ 02,19 get nIdade picture "999" valid nIdade > 0 .and. nIdade <= 115
+@ 02,19 get nIdade picture "999" valid nIdade > 0 .and. nIdade <= 120
 read
 
 if nIdade > 21

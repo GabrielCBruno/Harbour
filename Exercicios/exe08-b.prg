@@ -6,8 +6,6 @@ set century on
 
 // Variaveis
 
-// A data da entrega tem que ser 3 dias depois da compra. Cupom
-
 cNome          := Space(25)
 nIdade         := 0
 cEndereco      := Space(35)
@@ -104,9 +102,44 @@ nTotalGeral   := nTotalGeral  + nTotalProduto
 @ 16,04 say "Data da Entrega: "
 
 @ 15,21 get cEndereco picture "@!" valid !Empty(cEndereco)
-@ 16,21 get dEntrega               valid dEntrega > dAtual .and. dEntrega < dAtual + 3
+@ 16,21 get dEntrega               valid dEntrega >= dAtual .and. dEntrega <= dAtual + 3
 read
 
 //Cupom Fiscal
+
+clear
+
+@ 01,01 to 23,59 double
+
+@ 03,28 say "Cupom"
+
+@ 05,04 say "Cliente.......: " +   AllTrim(cNome)
+@ 05,45 say "Idade: "          +   AllTrim(Str(nIdade))
+@ 06,04 say "Data da Compra: " +   AllTrim(DtoC(dCompra))
+
+@ 08,28 say "Itens" 
+@ 10,04 say "SEQ"
+@ 10,15 say "PRODUTO"
+@ 10,34 say "QTD"
+@ 10,45 say "VALOR(R$)"
+
+@ 12,05 say "1"
+@ 12,10 say AllTrim(cNomeProduto1)
+@ 12,33 say AllTrim(Transform(nQtdProduto1, "@E 999.99"))
+@ 12,45 say AllTrim(Transform(nPrecoProduto1, "@E 999.99"))
+
+@ 14,05 say "2"
+@ 14,10 say AllTrim(cNomeProduto2)
+@ 14,33 say AllTrim(Transform(nQtdProduto2, "@E 999.99"))
+@ 14,45 say AllTrim(Transform(nPrecoProduto2, "@E 999.99"))
+
+@ 16,05 say "1"
+@ 16,10 say AllTrim(cNomeProduto3)
+@ 16,33 say AllTrim(Transform(nQtdProduto3, "@E 999.99"))
+@ 16,45 say AllTrim(Transform(nPrecoProduto3, "@E 999.99"))
+
+@ 18,45 say "Total: "           + AllTrim(Transform(nTotalGeral, "@E 999.99"))
+
+@ 20,15 say "Data da Entrega: " + AllTrim(DToC(dEntrega))
 
 @ 23,01 say ""
