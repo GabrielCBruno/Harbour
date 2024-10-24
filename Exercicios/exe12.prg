@@ -19,8 +19,20 @@ read
 
 cMensagem := "Entre os numeros digitados: " + AllTrim(Str(nNum1)) + ", " + AllTrim(Str(nNum2)) + " e " + AllTrim(Str(nNum3)) + ". O maior deles e: "
 
+// if nNum1 > nNum2 .and. nNum1 > nNum3
+//     nMaior := nNum1
+// elseif nNum2 > nNum1 .and. nNum2 > nNum3
+//     nMaior := nNum2
+// elseif nNum3 > nNum1 .and. nNum3 > nNum1
+//     nMaior := nNum3
+// endif
+
 if nNum1 > nNum2
-    nMaior := nNum1
+    if nNum1 > nNum3
+        nMaior := nNum1
+    else
+        nMaior := nNum3
+    endif
 else
     if nNum2 > nNum3
         nMaior := nNum2
