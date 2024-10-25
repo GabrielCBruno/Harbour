@@ -31,7 +31,6 @@ else
     nMaior := nNum3
 endif
 
-
 cMensagem := cMensagem + AllTrim(Str(nMaior))
     
 @ 07,04 say cMensagem

@@ -17,7 +17,7 @@ read
 // Processamento
 
 @ 04,01 say "************* Valores antes da troca *************"
-@ 05,01 say "Valor1: " + AllTrim(Str(nValor1)) //Str(valor a ser convertido): função que converte numerico para string.
+@ 05,01 say "Valor1: " + AllTrim(Str(nValor1)) //Str(valor a ser convertido): função que converte apenas numerico para string.
 @ 06,01 say "Valor2: " + AllTrim(Str(nValor2))
   
 @ 08,01 say "************* Valores depois da troca *************"
