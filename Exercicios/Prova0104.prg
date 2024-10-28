@@ -10,14 +10,17 @@ set century on
 
 dAtual              := Date()
 
-cNomeAluno          := Space(50)
+cNomeAluno          := Space(25)
 dNascimento         := CTod('')
-cCurso              := Space(45)
+cCurso              := Space(25)
 nSerie              := 0
 nMensalidade        := 0
 lAprovado           := .t.
 nMedia              := 0
 nSoma               := 0
+nDependencias       := 0
+cCor                := Space(3)
+cStatus             := Space(10) 
 
 cDisc1              := Space(20)
 nDisc1Nota1         := 0
@@ -50,45 +53,49 @@ nDisc3Falta2        := 0
 nDisc3Falta3        := 0
 nDisc3Falta4        := 0
 
-@ 02,01 say "Digite o nome do aluno..............:"
-@ 03,01 say "Digite a data de nascimento.........:"
-@ 04,01 say "Digite o nome do curso..............:"
-@ 05,01 say "Digite a serie atual................:"
-@ 06,01 say "Digite o valor da mensalidade.......:"
+@ 01,01 say "Escola Eduardo Machado"
+@ 02,01 say "Rua das Rosas n 1200 - Jardim Primavera"
+@ 03,01 say "(44) 91234-56789"
 
-@ 02,39 get cNomeAluno   picture "@!"        valid !Empty(cNomeAluno)
-@ 03,39 get dNascimento                      valid !Empty(dNascimento) .and. dNascimento < dAtual
-@ 04,39 get cCurso       picture "@!"        valid !Empty(cCurso)
-@ 05,39 get nSerie       picture "9"         valid !Empty(nSerie) .and. nSerie >= 1 .and. nSerie <= 8
-@ 06,39 get nMensalidade picture "@E 999.99" valid !Empty(nMensalidade)
+@ 05,01 say "Digite o nome do aluno..............:"
+@ 06,01 say "Digite a data de nascimento.........:"
+@ 07,01 say "Digite o nome do curso..............:"
+@ 08,01 say "Digite a serie atual................:"
+@ 09,01 say "Digite o valor da mensalidade.......:"
+
+@ 05,39 get cNomeAluno   picture "@!"        valid !Empty(cNomeAluno)
+@ 06,39 get dNascimento                      valid !Empty(dNascimento) .and. dNascimento < dAtual
+@ 07,39 get cCurso       picture "@!"        valid !Empty(cCurso)
+@ 08,39 get nSerie       picture "9"         valid nSerie >= 1 .and. nSerie <= 8
+@ 09,39 get nMensalidade picture "@E 999.99" valid !Empty(nMensalidade)
 read
 
-@ 08,01 say "Digite o nome da primeira disciplina:"
-@ 09,01 say "Digite o nome da segunda disciplina.:"
-@ 10,01 say "Digite o nome da terceira disciplina:"
+@ 11,01 say "Digite o nome da primeira disciplina:"
+@ 12,01 say "Digite o nome da segunda disciplina.:"
+@ 13,01 say "Digite o nome da terceira disciplina:"
 
-@ 08,39 get cDisc1 picture "@!" valid !Empty(cDisc1)
-@ 09,39 get cDisc2 picture "@!" valid !Empty(cDisc2) .and. cDisc2 != cDisc1
-@ 10,39 get cDisc3 picture "@!" valid !Empty(cDisc3) .and. cDisc3 != cDisc2 .and. cDisc3 != cDisc1
+@ 11,39 get cDisc1 picture "@!" valid !Empty(cDisc1)
+@ 12,39 get cDisc2 picture "@!" valid !Empty(cDisc2) .and. cDisc2 != cDisc1
+@ 13,39 get cDisc3 picture "@!" valid !Empty(cDisc3) .and. cDisc3 != cDisc2 .and. cDisc3 != cDisc1
 read
 
 clear
 
-@ 03,01 say "Disciplinas"
+@ 02,01 say "Disciplinas"
 
-@ 03,16 say "1"
-@ 03,20 say "Faltas"
+@ 02,16 say "1"
+@ 02,20 say "Faltas"
 
-@ 03,28 say "2"
-@ 03,30 say "Faltas"
+@ 02,28 say "2"
+@ 02,30 say "Faltas"
 
-@ 03,38 say "3"
-@ 03,41 say "Faltas"
+@ 02,38 say "3"
+@ 02,41 say "Faltas"
 
-@ 03,49 say "4"
-@ 03,50 say "Faltas"
+@ 02,49 say "4"
+@ 02,50 say "Faltas"
 
-@ 03,60 say "Media"
+@ 02,58 say "Media"
 
 //Disciplina 1
 
@@ -131,29 +138,33 @@ endif
 
 if nSerie <= 4
     if nMedia >= 60 
-        @ 04,59 say AllTrim(Transform(nMedia, "@E 999.9")) color "g/n"
+        cCor := "g/n"
     else
-        @ 04,59 say AllTrim(Transform(nMedia, "@E 999.9")) color "r/n"
+        cCor := "r/n"
         lAprovado := .f.
     endif
  else
      if nMedia >= 70
-        @ 04,59 say AllTrim(Transform(nMedia, "@E 999.9")) color "g/n"
+        cCor := "g/n"
     else
-        @ 04,59 say AllTrim(Transform(nMedia, "@E 999.9")) color "r/n"
+        cCor := "r/n"
         lAprovado := .f.
      endif
 endif
 
+@ 04,59 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
+
 if lAprovado == .f. 
-    @ 04,65 say "COM DEPENCIA"    color "r/n"
+    @ 04,65 say "COM DEPENDENCIA" color "r/n"
+    nDependencias := nDependencias + 1
 else
     @ 04,65 say "SEM DEPENDENCIA" color "g/n"
 endif
 
 //Disciplina 2
 
-nSoma := 0
+nSoma     := 0
+lAprovado := .t.
 
 @ 06,04 say AllTrim(cDisc2)
 @ 06,15 get nDisc2Nota1  picture "999" valid nDisc2Nota1 >= 0  .and. nDisc2Nota1 <= 100 //Nota 1
@@ -194,22 +205,25 @@ endif
 
 if nSerie <= 4
     if nMedia >= 60
-        @ 06,59 say "" + AllTrim(Transform(nMedia, "@E 999.9")) color "g/n"
+        cCor := "g/n"
     else
-        @ 06,59 say "" + AllTrim(Transform(nMedia, "@E 999.9")) color "r/n"
+        cCor := "r/n"
         lAprovado := .f.
     endif
  else
      if nMedia >= 70
-        @ 06,59 say "" + AllTrim(Transform(nMedia, "@E 999.9")) color "g/n"
+        cCor := "g/n"
     else
-        @ 06,59 say "" + AllTrim(Transform(nMedia, "@E 999.9")) color "r/n"
+        cCor := "r/n"
         lAprovado := .f.
      endif
 endif
 
+@ 06,59 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
+
 if lAprovado == .f. 
-    @ 06,65 say "COM DEPENCIA"    color "r/n"
+    @ 06,65 say "COM DEPENDENCIA" color "r/n"
+    nDependencias := nDependencias + 1
 else
     @ 06,65 say "SEM DEPENDENCIA" color "g/n"
 endif
@@ -217,6 +231,7 @@ endif
 //Disciplina 3
 
 nSoma := 0
+lAprovado := .t.
 
 @ 08,04 say AllTrim(cDisc3)
 @ 08,15 get nDisc3Nota1  picture "999" valid nDisc3Nota1 >= 0  .and. nDisc3Nota1 <= 100 //Nota 1
@@ -257,25 +272,44 @@ endif
 
 if nSerie <= 4
     if nMedia >= 60
-        @ 08,59 say "" + AllTrim(Transform(nMedia, "@E 999.9")) color "g/n"
+        cCor := "g/n"
     else
-        @ 08,59 say "" + AllTrim(Transform(nMedia, "@E 999.9")) color "r/n"
+        cCor := "r/n"
         lAprovado := .f.
     endif
  else
      if nMedia >= 70
-        @ 08,59 say "" + AllTrim(Transform(nMedia, "@E 999.9")) color "g/n"
+        cCor := "g/n"
     else
-        @ 08,59 say "" + AllTrim(Transform(nMedia, "@E 999.9")) color "r/n"
+        cCor := "r/n"
         lAprovado := .f.
      endif
 endif
 
+@ 08,59 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
+
 if lAprovado == .f. 
-    @ 08,65 say "COM DEPENCIA"    color "r/n"
+    @ 08,65 say "COM DEPENDENCIA" color "r/n"
+    nDependencias := nDependencias + 1
 else
     @ 08,65 say "SEM DEPENDENCIA" color "g/n"
 endif
- 
+
+//
+
+if nDependencias < 3 .and. nDependencias > 0
+    cStatus := "APROVADO com " + AllTrim(Str(nDependencias)) + " dependencia."
+    cCor    := "r/n"
+elseif nDependencias = 0
+    cStatus := "APROVADO sem dependencia."
+    cCor    := "g/n"
+else
+    cStatus := "REPROVADO."
+    cCor    := "r/n"
+endiF
+
+@ 11,45 say "Status: " + cStatus color cCor
+
+// Resultado Final
 
 @ 15,01 say ""
