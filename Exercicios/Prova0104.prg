@@ -53,73 +53,74 @@ nDisc3Falta2        := 0
 nDisc3Falta3        := 0
 nDisc3Falta4        := 0
 
-@ 01,01 say "Escola Eduardo Machado"
-@ 02,01 say "Rua das Rosas n 1200 - Jardim Primavera"
-@ 03,01 say "(44) 91234-56789"
+@ 00,01 say "Escola Eduardo Machado"
+@ 01,01 say "Rua das Rosas n 1200 - Jardim Primavera"
+@ 02,01 say "(44) 91234-56789"
+@ 03,00 to 03,80 double
 
-@ 05,01 say "Digite o nome do aluno..............:"
-@ 06,01 say "Digite a data de nascimento.........:"
-@ 07,01 say "Digite o nome do curso..............:"
-@ 08,01 say "Digite a serie atual................:"
-@ 09,01 say "Digite o valor da mensalidade.......:"
+@ 04,01 say "Digite o nome do aluno..............:"
+@ 05,01 say "Digite a data de nascimento.........:"
+@ 06,01 say "Digite o nome do curso..............:"
+@ 07,01 say "Digite a serie atual................:"
+@ 08,01 say "Digite o valor da mensalidade.......:"
 
-@ 05,39 get cNomeAluno   picture "@!"        valid !Empty(cNomeAluno)
-@ 06,39 get dNascimento                      valid !Empty(dNascimento) .and. dNascimento < dAtual
-@ 07,39 get cCurso       picture "@!"        valid !Empty(cCurso)
-@ 08,39 get nSerie       picture "9"         valid nSerie >= 1 .and. nSerie <= 8
-@ 09,39 get nMensalidade picture "@E 999.99" valid !Empty(nMensalidade)
+@ 04,39 get cNomeAluno   picture "@!"        valid !Empty(cNomeAluno)
+@ 05,39 get dNascimento                      valid !Empty(dNascimento) .and. dNascimento < dAtual
+@ 06,39 get cCurso       picture "@!"        valid !Empty(cCurso)
+@ 07,39 get nSerie       picture "9"         valid nSerie >= 1 .and. nSerie <= 8
+@ 08,39 get nMensalidade picture "@E 999.99" valid !Empty(nMensalidade)
 read
 
-@ 11,01 say "Digite o nome da primeira disciplina:"
-@ 12,01 say "Digite o nome da segunda disciplina.:"
-@ 13,01 say "Digite o nome da terceira disciplina:"
+@ 10,01 say "Digite o nome da primeira disciplina:"
+@ 11,01 say "Digite o nome da segunda disciplina.:"
+@ 12,01 say "Digite o nome da terceira disciplina:"
 
-@ 11,39 get cDisc1 picture "@!" valid !Empty(cDisc1)
-@ 12,39 get cDisc2 picture "@!" valid !Empty(cDisc2) .and. cDisc2 != cDisc1
-@ 13,39 get cDisc3 picture "@!" valid !Empty(cDisc3) .and. cDisc3 != cDisc2 .and. cDisc3 != cDisc1
+@ 10,39 get cDisc1 picture "@!" valid !Empty(cDisc1)
+@ 11,39 get cDisc2 picture "@!" valid !Empty(cDisc2) .and. cDisc2 != cDisc1
+@ 12,39 get cDisc3 picture "@!" valid !Empty(cDisc3) .and. cDisc3 != cDisc2 .and. cDisc3 != cDisc1
 read
 
-clear
+@ 09,01 clear to 25,80
 
-@ 02,01 say "Disciplinas"
+@ 10,01 say "Disciplinas"
 
-@ 02,16 say "1"
-@ 02,20 say "Faltas"
+@ 10,16 say "1"
+@ 10,20 say "Faltas"
 
-@ 02,28 say "2"
-@ 02,30 say "Faltas"
+@ 10,28 say "2"
+@ 10,30 say "Faltas"
 
-@ 02,38 say "3"
-@ 02,41 say "Faltas"
+@ 10,38 say "3"
+@ 10,41 say "Faltas"
 
-@ 02,49 say "4"
-@ 02,50 say "Faltas"
+@ 10,49 say "4"
+@ 10,50 say "Faltas"
 
-@ 02,58 say "Media"
+@ 10,58 say "Media"
 
 //Disciplina 1
 
-@ 04,04 say AllTrim(cDisc1)
-@ 04,15 get nDisc1Nota1  picture "999" valid nDisc1Nota1 >= 0  .and. nDisc1Nota1 <= 100 //Nota 1
-@ 04,21 get nDisc1Falta1 picture "99"  valid nDisc1Falta1 >= 0 .and. nDisc1Falta1 <= 20  //Faltas
+@ 11,04 say AllTrim(cDisc1)
+@ 11,15 get nDisc1Nota1  picture "999" valid nDisc1Nota1 >= 0  .and. nDisc1Nota1 <= 100 //Nota 1
+@ 08,21 get nDisc1Falta1 picture "99"  valid nDisc1Falta1 >= 0 .and. nDisc1Falta1 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc1Nota1
 
-@ 04,27 get nDisc1Nota2  picture "999" valid nDisc1Nota2 >= 0  .and. nDisc1Nota2 <= 100 //Nota 2
-@ 04,32 get nDisc1Falta2 picture "99"  valid nDisc1Falta2 >= 0 .and. nDisc1Falta2 <= 20  //Faltas
+@ 11,27 get nDisc1Nota2  picture "999" valid nDisc1Nota2 >= 0  .and. nDisc1Nota2 <= 100 //Nota 2
+@ 11,32 get nDisc1Falta2 picture "99"  valid nDisc1Falta2 >= 0 .and. nDisc1Falta2 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc1Nota2
 
-@ 04,37 get nDisc1Nota3  picture "999" valid nDisc1Nota3 >= 0  .and. nDisc1Nota3 <= 100 //Nota 3
-@ 04,42 get nDisc1Falta3 picture "99"  valid nDisc1Falta3 >= 0 .and. nDisc1Falta3 <= 20  //Faltas
+@ 11,37 get nDisc1Nota3  picture "999" valid nDisc1Nota3 >= 0  .and. nDisc1Nota3 <= 100 //Nota 3
+@ 11,42 get nDisc1Falta3 picture "99"  valid nDisc1Falta3 >= 0 .and. nDisc1Falta3 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc1Nota3
 
-@ 04,47 get nDisc1Nota4  picture "999" valid nDisc1Nota4>= 0   .and. nDisc1Nota4<= 100 //Nota 4
-@ 04,52 get nDisc1Falta4 picture "99"  valid nDisc1Falta4 >= 0 .and. nDisc1Falta4 <= 20  //Faltas
+@ 11,47 get nDisc1Nota4  picture "999" valid nDisc1Nota4>= 0   .and. nDisc1Nota4<= 100 //Nota 4
+@ 11,52 get nDisc1Falta4 picture "99"  valid nDisc1Falta4 >= 0 .and. nDisc1Falta4 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc1Nota4
@@ -152,13 +153,13 @@ if nSerie <= 4
      endif
 endif
 
-@ 04,59 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
+@ 11,58 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
 
 if lAprovado == .f. 
-    @ 04,65 say "COM DEPENDENCIA" color "r/n"
+    @ 11,64 say "COM DEPENDENCIA" color "r/n"
     nDependencias := nDependencias + 1
 else
-    @ 04,65 say "SEM DEPENDENCIA" color "g/n"
+    @ 11,64 say "SEM DEPENDENCIA" color "g/n"
 endif
 
 //Disciplina 2
@@ -166,27 +167,27 @@ endif
 nSoma     := 0
 lAprovado := .t.
 
-@ 06,04 say AllTrim(cDisc2)
-@ 06,15 get nDisc2Nota1  picture "999" valid nDisc2Nota1 >= 0  .and. nDisc2Nota1 <= 100 //Nota 1
-@ 06,21 get nDisc2Falta1 picture "99"  valid nDisc2Falta1 >= 0 .and. nDisc2Falta1 <= 20  //Faltas
+@ 12,04 say AllTrim(cDisc2)
+@ 12,15 get nDisc2Nota1  picture "999" valid nDisc2Nota1 >= 0  .and. nDisc2Nota1 <= 100 //Nota 1
+@ 12,21 get nDisc2Falta1 picture "99"  valid nDisc2Falta1 >= 0 .and. nDisc2Falta1 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc2Nota1
 
-@ 06,27 get nDisc2Nota2  picture "999" valid nDisc2Nota2 >= 0  .and. nDisc2Nota2 <= 100 //Nota 2
-@ 06,32 get nDisc2Falta2 picture "99"  valid nDisc2Falta2 >= 0 .and. nDisc2Falta2 <= 20  //Faltas
+@ 12,27 get nDisc2Nota2  picture "999" valid nDisc2Nota2 >= 0  .and. nDisc2Nota2 <= 100 //Nota 2
+@ 12,32 get nDisc2Falta2 picture "99"  valid nDisc2Falta2 >= 0 .and. nDisc2Falta2 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc2Nota2
 
-@ 06,37 get nDisc2Nota3  picture "999" valid nDisc2Nota3 >= 0  .and. nDisc2Nota3 <= 100 //Nota 3
-@ 06,42 get nDisc2Falta3 picture "99"  valid nDisc2Falta3 >= 0 .and. nDisc2Falta3 <= 20  //Faltas
+@ 12,37 get nDisc2Nota3  picture "999" valid nDisc2Nota3 >= 0  .and. nDisc2Nota3 <= 100 //Nota 3
+@ 12,42 get nDisc2Falta3 picture "99"  valid nDisc2Falta3 >= 0 .and. nDisc2Falta3 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc2Nota3
 
-@ 06,47 get nDisc2Nota4  picture "999" valid nDisc2Nota4>= 0   .and. nDisc2Nota4<= 100 //Nota 4
-@ 06,52 get nDisc2Falta4 picture "99"  valid nDisc2Falta4 >= 0 .and. nDisc2Falta4 <= 20  //Faltas
+@ 12,47 get nDisc2Nota4  picture "999" valid nDisc2Nota4>= 0   .and. nDisc2Nota4<= 100 //Nota 4
+@ 12,52 get nDisc2Falta4 picture "99"  valid nDisc2Falta4 >= 0 .and. nDisc2Falta4 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc2Nota4
@@ -219,13 +220,13 @@ if nSerie <= 4
      endif
 endif
 
-@ 06,59 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
+@ 12,58 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
 
 if lAprovado == .f. 
-    @ 06,65 say "COM DEPENDENCIA" color "r/n"
+    @ 12,64 say "COM DEPENDENCIA" color "r/n"
     nDependencias := nDependencias + 1
 else
-    @ 06,65 say "SEM DEPENDENCIA" color "g/n"
+    @ 12,64 say "SEM DEPENDENCIA" color "g/n"
 endif
 
 //Disciplina 3
@@ -233,27 +234,27 @@ endif
 nSoma := 0
 lAprovado := .t.
 
-@ 08,04 say AllTrim(cDisc3)
-@ 08,15 get nDisc3Nota1  picture "999" valid nDisc3Nota1 >= 0  .and. nDisc3Nota1 <= 100 //Nota 1
-@ 08,21 get nDisc3Falta1 picture "99"  valid nDisc3Falta1 >= 0 .and. nDisc3Falta1 <= 20  //Faltas
+@ 14,04 say AllTrim(cDisc3)
+@ 14,15 get nDisc3Nota1  picture "999" valid nDisc3Nota1 >= 0  .and. nDisc3Nota1 <= 100 //Nota 1
+@ 14,21 get nDisc3Falta1 picture "99"  valid nDisc3Falta1 >= 0 .and. nDisc3Falta1 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc3Nota1
 
-@ 08,27 get nDisc3Nota2  picture "999" valid nDisc3Nota2 >= 0  .and. nDisc3Nota2 <= 100 //Nota 2
-@ 08,32 get nDisc3Falta2 picture "99"  valid nDisc3Falta2 >= 0 .and. nDisc3Falta2 <= 20  //Faltas
+@ 14,27 get nDisc3Nota2  picture "999" valid nDisc3Nota2 >= 0  .and. nDisc3Nota2 <= 100 //Nota 2
+@ 14,32 get nDisc3Falta2 picture "99"  valid nDisc3Falta2 >= 0 .and. nDisc3Falta2 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc3Nota2
 
-@ 08,37 get nDisc3Nota3  picture "999" valid nDisc3Nota3 >= 0  .and. nDisc3Nota3 <= 100 //Nota 3
-@ 08,42 get nDisc3Falta3 picture "99"  valid nDisc3Falta3 >= 0 .and. nDisc3Falta3 <= 20  //Faltas
+@ 14,37 get nDisc3Nota3  picture "999" valid nDisc3Nota3 >= 0  .and. nDisc3Nota3 <= 100 //Nota 3
+@ 14,42 get nDisc3Falta3 picture "99"  valid nDisc3Falta3 >= 0 .and. nDisc3Falta3 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc3Nota3
 
-@ 08,47 get nDisc3Nota4  picture "999" valid nDisc3Nota4>= 0   .and. nDisc3Nota4<= 100 //Nota 4
-@ 08,52 get nDisc3Falta4 picture "99"  valid nDisc3Falta4 >= 0 .and. nDisc3Falta4 <= 20  //Faltas
+@ 14,47 get nDisc3Nota4  picture "999" valid nDisc3Nota4>= 0   .and. nDisc3Nota4<= 100 //Nota 4
+@ 14,52 get nDisc3Falta4 picture "99"  valid nDisc3Falta4 >= 0 .and. nDisc3Falta4 <= 20  //Faltas
 read
 
 nSoma := nSoma + nDisc3Nota4
@@ -286,13 +287,13 @@ if nSerie <= 4
      endif
 endif
 
-@ 08,59 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
+@ 14,58 say AllTrim(Transform(nMedia, "@E 999.9")) color cCor
 
 if lAprovado == .f. 
-    @ 08,65 say "COM DEPENDENCIA" color "r/n"
+    @ 14,64 say "COM DEPENDENCIA" color "r/n"
     nDependencias := nDependencias + 1
 else
-    @ 08,65 say "SEM DEPENDENCIA" color "g/n"
+    @ 14,64 say "SEM DEPENDENCIA" color "g/n"
 endif
 
 //
@@ -308,8 +309,19 @@ else
     cCor    := "r/n"
 endiF
 
-@ 11,45 say "Status: " + cStatus color cCor
-
 // Resultado Final
 
-@ 15,01 say ""
+@ 15,00 to 15,80 double
+
+@ 17,40 say "STATUS: " + cStatus color cCor
+
+if nDependencias = 1
+    nMensalidade := nMensalidade + (nMensalidade * 0.2)
+elseif nDependencias = 2
+    nMensalidade := nMensalidade + (nMensalidade * 0.4)
+endif
+
+@ 19,04 say "Valor da nova mensalidade: " + AllTrim(Transform(nMensalidade, "@E 999.99"))
+Inkey(0)
+
+@ 21,01 say ""
