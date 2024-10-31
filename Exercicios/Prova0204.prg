@@ -166,10 +166,8 @@ endif
 
 nIdadeCarro := Year(dAtual) - nAnoFabricacao
 
-if nIdadeCarro = 1
-    nSeguradora1ValorAnual += nSeguradora1Fipe * 0.008
-elseif nIdadeCarro = 2
-    nSeguradora1ValorAnual += nSeguradora1Fipe * 0.
+if nIdadeCarro > 20
+    nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.1)
 endif
 
 if cUsoVeiculo == 'O'
