@@ -15,6 +15,7 @@ dEntrega       := CTod('')
 nTotalProduto  := 0
 nTotalGeral    := 0
 nLimite        := 0
+cMensagemAlert := Space(25)
 
 cNomeProduto1  := Space(20)
 nQtdProduto1   := 0

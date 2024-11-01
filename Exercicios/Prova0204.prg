@@ -118,10 +118,10 @@ endif
 
 nIdadeCarro := Year(dAtual) - nAnoFabricacao
 
-if nIdadeCarro = 1
-    nSeguradora1ValorAnual += nSeguradora1Fipe * 0.005
-elseif nIdadeCarro = 2
-    nSeguradora1ValorAnual += nSeguradora1Fipe * 0.10
+if nIdadeCarro > 20
+    nSeguradora1ValorAnual += nSeguradora1Fipe * 0.1
+elseif nIdadeCarro > 0
+    nSeguradora1ValorAnual += nSeguradora1Fipe * (nIdadeCarro * 0.005)
 endif
 
 if cUsoVeiculo == 'O'
@@ -134,48 +134,46 @@ endif
 
 // Seguradora 2
 
-if nIdade < 23 .or. nIdade > 60
-    if nIdade >= 30 .and. nIdade <= 50
-        nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.15) 
-    else
-        nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08) 
-    endif
+if nIdade >= 30 .and. nIdade <= 50
+    nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08)
+else
+    nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.15)
 endif
 
 if cSexo == 'M'
-    nSeguradora1ValorAnual -= (nSeguradora1Fipe * 0.06)
+    nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.06)
 else
-    nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.12)
+    nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.12)
 endif
 
 if Year(dAtual) - nAnoPrimeiraCNH > 5
-    nSeguradora1ValorAnual -= (nSeguradora1Fipe * 0.08)
+    nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08)
 elseif Year(dAtual) - nAnoPrimeiraCNH <= 2 .and. Year(dAtual) - nAnoPrimeiraCNH != 0
-    nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.2)
+    nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.2)
 endif
 
 if cTipoVeiculo == 'E'
-    nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.15)
+    nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.15)
 elseif cTipoVeiculo == 'L'
-    nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.18)
+    nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.18)
 endif
 
 if nMotor >= 1.5
-    nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.1)
+    nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.1)
 endif
 
-nIdadeCarro := Year(dAtual) - nAnoFabricacao
-
-if nIdadeCarro > 20
-    nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.1)
+if nIdadeCarro > 10
+    nSeguradora2ValorAnual += nSeguradora2Fipe * 0.08
+elseif nIdadeCarro > 0
+    nSeguradora2ValorAnual += nSeguradora2Fipe * (nIdadeCarro * 0,008)
 endif
 
 if cUsoVeiculo == 'O'
-    nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.12)
+    nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.12)
 endif
 
 if Month(dCotacao) = 9
-    nSeguradora1ValorAnual -= (nSeguradora1Fipe * 0.08)
+    nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08)
 endif
 
 // Impressao
@@ -212,12 +210,20 @@ elseif Month(dAtual) = 12
     cMensagem := cMensagem + " Dezembro de " + AllTrim(Str(Year(dAtual)))
 endif
 
-@ 01,00 to 07,25 double
+@ 01,00 to 07,25
 @ 02,04 say "SEGUROS E CIA"
 @ 03,00 to 03,25
-@ 05,04 say "Mensal.....:"
-@ 06,04 say "Trimestral.:"
-@ 07,04 say "Valor Anual: " + AllTrim(Str(nSeguradora1ValorAnual))
+@ 05,04 say "Mensal.....:" + Transform((nSeguradora1ValorAnual/12), "@E 99999.99")
+@ 06,04 say "Trimestral.:" + Transform((nSeguradora1ValorAnual/12) * 3, "@E 99999.99")
+@ 07,04 say "Valor Anual:" + Transform(nSeguradora1ValorAnual, "@E 99999.99")
+
+@ 01,27 to 07,50
+@ 02,29 say "AUTO SEGUROS S A"
+@ 03,27 to 03,50
+@ 05,28 say "Mensal.....:" + Transform(nSeguradora2ValorAnual/12, "@E 99999.99")
+@ 06,28 say "Trimestral.:" + Transform((nSeguradora2ValorAnual/12) * 3, "@E 99999.99")
+@ 07,28 say "Valor Anual:" + Transform(nSeguradora2ValorAnual, "@E 99999.99")
 
 @ 10,02 say cMensagem
+
 Inkey(0)
