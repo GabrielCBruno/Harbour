@@ -15,6 +15,7 @@ dEntrega        := CTod('')
 nTotalProduto   := 0
 nTotalGeral     := 0
 nLimite         := 0
+nLinha          := 7 
 cMensagemLimite := "O Valor do produto e maior que o limite disponivel"
 
 // Processamento
@@ -68,13 +69,11 @@ do while .t.
         nQtdProduto     := 0
         nPrecoProduto   := 0
 
-        @ 06,02 clear to 17,70
+        @ nLinha,05 say AllTrim(Str(nContador))
 
-        @ 07,05 say AllTrim(Str(nContador))
-
-        @ 07,10 get cNomeProduto   picture "@!"        valid !Empty(cNomeProduto)
-        @ 07,33 get nQtdProduto    picture "@E 999.99" valid !Empty(nQtdProduto)   .and. nQtdProduto > 0 .and. nQtdProduto < 100
-        @ 07,42 get nPrecoProduto  picture "@E 999.99" valid !Empty(nPrecoProduto) .and. nPrecoProduto > 0
+        @ nLinha,10 get cNomeProduto   picture "@!"        valid !Empty(cNomeProduto)
+        @ nLinha,33 get nQtdProduto    picture "@E 999.99" valid !Empty(nQtdProduto)   .and. nQtdProduto > 0 .and. nQtdProduto < 100
+        @ nLinha,42 get nPrecoProduto  picture "@E 999.99" valid !Empty(nPrecoProduto) .and. nPrecoProduto > 0
         read
 
         if LastKey() = 27
@@ -96,10 +95,15 @@ do while .t.
         else
             nLimite     := nLimite      - nTotalProduto
             nTotalGeral := nTotalGeral  + nTotalProduto
-            @ 07,52 say Transform(nTotalProduto, "@E 999.99")
-            @ 09,20 say "Produto salvo com sucesso!" color "r/n"
+            @ nLinha,52 say Transform(nTotalProduto, "@E 999.99")
+            if nLinha = 11
+                nLinha := 7
+                InKey(0)
+                @ 06,02 clear to 11,70
+            else
+                nLinha += 2
+            endif
             nContador++
-            InKey(0)
         endif
 
     enddo
