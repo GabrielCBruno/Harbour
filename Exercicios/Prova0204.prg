@@ -134,10 +134,12 @@ endif
 
 // Seguradora 2
 
-if nIdade >= 30 .and. nIdade <= 50
-    nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08)
-else
-    nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.15)
+if nIdade < 23 .or. nIdade > 60
+    if nIdade >= 30 .and. nIdade <= 50
+        nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.15) 
+    else
+        nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08) 
+    endif
 endif
 
 if cSexo == 'M'
@@ -161,6 +163,8 @@ endif
 if nMotor >= 1.5
     nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.1)
 endif
+
+nIdadeCarro := Year(dAtual) - nAnoFabricacao
 
 if nIdadeCarro > 10
     nSeguradora2ValorAnual += nSeguradora2Fipe * 0.08
@@ -210,20 +214,25 @@ elseif Month(dAtual) = 12
     cMensagem := cMensagem + " Dezembro de " + AllTrim(Str(Year(dAtual)))
 endif
 
-@ 01,00 to 07,25
+@ 01,00 to 07,25 double
 @ 02,04 say "SEGUROS E CIA"
 @ 03,00 to 03,25
-@ 05,04 say "Mensal.....:" + Transform((nSeguradora1ValorAnual/12), "@E 99999.99")
-@ 06,04 say "Trimestral.:" + Transform((nSeguradora1ValorAnual/12) * 3, "@E 99999.99")
-@ 07,04 say "Valor Anual:" + Transform(nSeguradora1ValorAnual, "@E 99999.99")
+@ 05,04 say "Mensal.....:" + AllTrim(Str(nSeguradora1ValorAnual/12))
+@ 06,04 say "Trimestral.:" + AllTrim(Str((nSeguradora1ValorAnual)/12 * 3))
+@ 07,04 say "Valor Anual:" + AllTrim(Str(nSeguradora1ValorAnual))
 
-@ 01,27 to 07,50
-@ 02,29 say "AUTO SEGUROS S A"
+@ 01,52 to 07,80 double
+@ 02,04 say "SEGUROS JOIO"
 @ 03,27 to 03,50
-@ 05,28 say "Mensal.....:" + Transform(nSeguradora2ValorAnual/12, "@E 99999.99")
-@ 06,28 say "Trimestral.:" + Transform((nSeguradora2ValorAnual/12) * 3, "@E 99999.99")
-@ 07,28 say "Valor Anual:" + Transform(nSeguradora2ValorAnual, "@E 99999.99")
+@ 05,04 say "Mensal.....:" + AllTrim(Str(nSeguradora2ValorAnual/12))
+@ 06,04 say "Trimestral.:" + AllTrim(Str((nSeguradora2ValorAnual)/12 * 3))
+@ 07,04 say "Valor Anual:" + AllTrim(Str(nSeguradora2ValorAnual))
+
+if nSeguradora1ValorAnual > nSeguradora2ValorAnual 
+    
+else
+
+endif
 
 @ 10,02 say cMensagem
-
 Inkey(0)
