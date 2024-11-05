@@ -24,17 +24,18 @@ nMotor          := 0
 nValor          := 0
 cUsoVeiculo     := Space(1)
 
-// Processamento
+//Processamento
 
 //Vendedor
 
-@ 00,00 to 03,80 double
+@ 00,00 to 02,80
 
-@ 02,01 say "Nome do vendedor:"
-@ 02,53 say "Data da cotacao.:"
+@ 00,04 say "JHON DOE - COTACAO DE SEGUROS"
+@ 01,01 say "Nome do vendedor:"
+@ 01,50 say "Data da cotacao:"
 
-@ 02,22 get cNomeVendedor picture "@!" valid !Empty(cNomeVendedor)
-@ 02,70 get dCotacao                   valid dCotacao >= dAtual
+@ 01,19 get cNomeVendedor picture "@!" valid !Empty(cNomeVendedor)
+@ 01,67 get dCotacao                   valid dCotacao >= dAtual
 read
 
 //Cliente
@@ -43,6 +44,7 @@ clear
 
 @ 00,00 to 08,80 double
 
+@ 00,25 say "Dados Pessoas"
 @ 02,01 say "Nome do Cliente:"
 @ 02,52 say "Idade:"
 
@@ -62,6 +64,7 @@ clear
 
 @ 00,00 to 08,80 double
 
+@ 00,25 say "Dados do Veiculo"
 @ 02,02 say "Marca............:"
 @ 03,02 say "Ano de Fabricacao:"
 @ 04,02 say "Tipo de veiculo..:"
@@ -88,7 +91,7 @@ nSeguradora2ValorAnual := nSeguradora2Fipe
 
 Inkey(0)
 
-// Seguradora 1
+//Seguradora 1
 
 if nIdade < 25 .or. nIdade > 65
     nSeguradora1ValorAnual += (nSeguradora1Fipe * 0.1)
@@ -132,7 +135,7 @@ if Month(dCotacao) = 3
     nSeguradora1ValorAnual -= (nSeguradora1Fipe * 0.1)
 endif
 
-// Seguradora 2
+//Seguradora 2
 
 if nIdade < 23 .or. nIdade > 60
     if nIdade >= 30 .and. nIdade <= 50
@@ -156,9 +159,9 @@ endif
 
 if cTipoVeiculo == 'E'
     nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.15)
-elseif cTipoVeiculo == 'L'
+ elseif cTipoVeiculo == 'L'
     nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.18)
-endif
+ endif
 
 if nMotor >= 1.5
     nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.1)
@@ -169,7 +172,7 @@ nIdadeCarro := Year(dAtual) - nAnoFabricacao
 if nIdadeCarro > 10
     nSeguradora2ValorAnual += nSeguradora2Fipe * 0.08
 elseif nIdadeCarro > 0
-    nSeguradora2ValorAnual += nSeguradora2Fipe * (nIdadeCarro * 0,008)
+     nSeguradora2ValorAnual += nSeguradora2Fipe * (nIdadeCarro * 0.008)
 endif
 
 if cUsoVeiculo == 'O'
@@ -180,59 +183,28 @@ if Month(dCotacao) = 9
     nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08)
 endif
 
-// Impressao
+//Impressao
 
 clear 
 
 cMensagem := Space(25)
 
-cMensagem := "Cotacao valida ate " + AllTrim(Str(Day(dAtual)))
 
-if Month(dAtual) = 01
-    cMensagem := cMensagem + " Janeiro de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 02
-    cMensagem := cMensagem + " Fevereiro de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 03
-    cMensagem := cMensagem + " Marco de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 04
-    cMensagem := cMensagem + " Abril de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 05
-    cMensagem := cMensagem + " Maio de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 06
-    cMensagem := cMensagem + " Junho de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 07
-    cMensagem := cMensagem + " Julho de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 08
-    cMensagem := cMensagem + " Agosto de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 09
-    cMensagem := cMensagem + " Setembro de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 10
-    cMensagem := cMensagem + " Outubro de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 11
-    cMensagem := cMensagem + " Novembro de " + AllTrim(Str(Year(dAtual)))
-elseif Month(dAtual) = 12
-    cMensagem := cMensagem + " Dezembro de " + AllTrim(Str(Year(dAtual)))
-endif
+@ 01,00 to 08,35
+@ 02,01 say "SEGUROS E CIA"
+@ 03,00 to 03,35
+@ 05,02 say "Mensal.....:" + AllTrim(Str(nSeguradora1ValorAnual/12))
+@ 06,02 say "Trimestral.:" + AllTrim(Str((nSeguradora1ValorAnual)/12 * 3))
+@ 07,02 say "Valor Anual:" + AllTrim(Str(nSeguradora1ValorAnual))
 
-@ 01,00 to 07,25 double
-@ 02,04 say "SEGUROS E CIA"
-@ 03,00 to 03,25
-@ 05,04 say "Mensal.....:" + AllTrim(Str(nSeguradora1ValorAnual/12))
-@ 06,04 say "Trimestral.:" + AllTrim(Str((nSeguradora1ValorAnual)/12 * 3))
-@ 07,04 say "Valor Anual:" + AllTrim(Str(nSeguradora1ValorAnual))
-
-@ 01,52 to 07,80 double
-@ 02,04 say "SEGUROS JOIO"
+@ 01,52 to 08,60
+@ 02,57 say "SEGUROS WOLF"
 @ 03,27 to 03,50
-@ 05,04 say "Mensal.....:" + AllTrim(Str(nSeguradora2ValorAnual/12))
-@ 06,04 say "Trimestral.:" + AllTrim(Str((nSeguradora2ValorAnual)/12 * 3))
-@ 07,04 say "Valor Anual:" + AllTrim(Str(nSeguradora2ValorAnual))
+@ 05,53 say "Mensal.....:" + AllTrim(Str(nSeguradora2ValorAnual/12))
+@ 06,53 say "Trimestral.:" + AllTrim(Str((nSeguradora2ValorAnual)/12 * 3))
+@ 07,53 say "Valor Anual:" + AllTrim(Str(nSeguradora2ValorAnual))
 
-if nSeguradora1ValorAnual > nSeguradora2ValorAnual 
-    
-else
-
-endif
+//cMensagem := "Cotacao valida ate "
 
 @ 10,02 say cMensagem
 Inkey(0)

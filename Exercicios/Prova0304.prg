@@ -1,7 +1,7 @@
 // Gabriel Henrique Cavalin Bruno
 
 set date brit 
-set epoch to 1940
+set epoch to 1930
 set century on
 
 clear 
@@ -9,7 +9,6 @@ clear
 // Variaveis
 
 dAtual               := Date()
-nNumEmpregados       := 0
 
 nContador            := 0
 nSalarioNovo         := 0
@@ -26,11 +25,22 @@ nQtdMulherReducao    := 0
 // Processamento
 
 do while .t.
+    
+    nNumEmpregados   := 0
 
     @ 00,22 say "Controle de INSS"
     @ 01,02 say "Numero de empregados a serem analisados:"
     @ 01,43 get nNumEmpregados picture "99999" valid nNumEmpregados > 0 .and. nNumEmpregados < 10000
     read
+
+    if LastKey() == 27
+        nOpcao := Alert('Menu de Opcoes', {'Sair', 'Continuar'})
+        if nOpcao = 2 .or. nOpcao = 0
+            loop
+        else
+            exit
+        endif
+    endif
 
     @ 03,25 say "Dados do Colaborador"
 
@@ -57,7 +67,7 @@ do while .t.
         
         
         @ 05,08 get cNomeColaborador        picture "@!"            valid !Empty(cNomeColaborador)
-        @ 05,40 get cSexo                   picture "@!"            valid cSexo == 'M' .or. cSexo == 'F'
+        @ 05,40 get cSexo                   picture "@!"            valid cSexo $ "MF"
         @ 07,22 get dNascimento                                     valid Year(dAtual) - Year(dNascimento) >= 18 .and. !Empty(dNascimento)
         @ 08,22 get dAdmissao                                       valid dAdmissao <= dAtual .and. dAdmissao >= CtoD('01/01/1940')
         @ 08,59 get dDemissao                                       valid dDemissao <= dAtual .and. dDemissao > dAdmissao
@@ -72,12 +82,11 @@ do while .t.
 
         if LastKey() == 27
             nOpcao := Alert('Menu de Opcoes', {'Cancelar', 'Retornar', 'Processar'})
-        elseif nOpcao = 1
-            exit
-        elseif nOpcao = 2 .or. nOpcao = 0
-            loop
-        elseif nOpcao = 3
-            exit
+            if nOpcao = 1 .or. nOpcao = 3
+                exit
+            else
+                loop
+            endif
         endif
 
         nIdade           := Year(dAtual) - Year(dNascimento)
@@ -110,20 +119,25 @@ do while .t.
             endif
         endif
 
-        if dAdmissao <= CtoD('31/12/2011') .and. dDemissao >= CtoD('02/01/2020')
+        if Year(dAdmissao) <= 2012 .and. Year(dDemissao) >= 2020
             //Trabalhou entre 2012 e 2020
             nSalarioNovo -= nSalarioBase * 0.02
 
-            if cSexo == 'F'
+            Alert('Entrou em 2012 a 2020')
+            
+
+            if cSexo $ 'F'
                 nQtdMulherReducao++
             endif
         endif
 
-        if dAdmissao <= CtoD('31/12/2009') .and. dDemissao >= CtoD('02/01/2015')
+        if Year(dAdmissao) <= 2010 .and. Year(dDemissao) >= 2015
             //Trabalhou em 2010 e 2015
             nSalarioNovo += nSalarioBase * 0.06
 
-            if cSexo == 'M'
+            Alert('Entrou em 2010 e 2015')
+
+            if cSexo $ 'M'
                 nQtdHomemAdicional++
             endif
         endif
@@ -132,7 +146,7 @@ do while .t.
         nContador++
     enddo
 
-    if nContador == nNumEmpregados
+    if nContador == nNumEmpregados .or. nOpcao == 3
         exit
     endif
 enddo
