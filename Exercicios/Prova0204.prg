@@ -89,8 +89,6 @@ nSeguradora1ValorAnual := nSeguradora1Fipe
 nSeguradora2Fipe       := nValor * 0.07
 nSeguradora2ValorAnual := nSeguradora2Fipe
 
-Inkey(0)
-
 //Seguradora 1
 
 if nIdade < 25 .or. nIdade > 65
@@ -137,11 +135,11 @@ endif
 
 //Seguradora 2
 
-if nIdade < 23 .or. nIdade > 60
-    if nIdade >= 30 .and. nIdade <= 50
-        nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.15) 
-    else
-        nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08) 
+if nIdade >= 30 .and. nIdade <= 50
+    nSeguradora2ValorAnual -= (nSeguradora2Fipe * 0.08)
+else 
+    if nIdade < 23 .or. nIdade > 60
+        nSeguradora2ValorAnual += (nSeguradora2Fipe * 0.15)
     endif
 endif
 
@@ -185,26 +183,74 @@ endif
 
 //Impressao
 
+cCorSeguradora1 := Space(3)
+cCorSeguradora2 := Space(3)
+
+if nSeguradora1ValorAnual > nSeguradora2ValorAnual
+    cCorSeguradora1 := 'w/g'
+    cCorSeguradora2 := 'w/r'
+else
+    if nSeguradora1ValorAnual < nSeguradora2ValorAnual
+        cCorSeguradora1 := 'w/r'
+        cCorSeguradora2 := 'w/g'
+    else
+        cCorSeguradora1 := 'w/g'
+        cCorSeguradora2 := 'w/g'
+    endif
+endif
+
 clear 
 
 cMensagem := Space(25)
 
+// nUltimoDia := day(dAtual) + 31
 
-@ 01,00 to 08,35
-@ 02,01 say "SEGUROS E CIA"
-@ 03,00 to 03,35
-@ 05,02 say "Mensal.....:" + AllTrim(Str(nSeguradora1ValorAnual/12))
-@ 06,02 say "Trimestral.:" + AllTrim(Str((nSeguradora1ValorAnual)/12 * 3))
-@ 07,02 say "Valor Anual:" + AllTrim(Str(nSeguradora1ValorAnual))
+// nDifenca := nUltimoDia - 31
 
-@ 01,52 to 08,60
-@ 02,57 say "SEGUROS WOLF"
-@ 03,27 to 03,50
-@ 05,53 say "Mensal.....:" + AllTrim(Str(nSeguradora2ValorAnual/12))
-@ 06,53 say "Trimestral.:" + AllTrim(Str((nSeguradora2ValorAnual)/12 * 3))
-@ 07,53 say "Valor Anual:" + AllTrim(Str(nSeguradora2ValorAnual))
+// nUltimoDia := nUltimoDia - nDifenca
 
-//cMensagem := "Cotacao valida ate "
+// if Month(dAtual) = 01
+//     cMensagem := cMensagem + " Janeiro de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 02
+//     cMensagem := cMensagem + " Fevereiro de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 03
+//     cMensagem := cMensagem + " Marco de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 04
+//     cMensagem := cMensagem + " Abril de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 05
+//     cMensagem := cMensagem + " Maio de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 06
+//     cMensagem := cMensagem + " Junho de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 07
+//     cMensagem := cMensagem + " Julho de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 08
+//     cMensagem := cMensagem + " Agosto de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 09
+//     cMensagem := cMensagem + " Setembro de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 10
+//     cMensagem := cMensagem + " Outubro de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 11
+//     cMensagem := cMensagem + " Novembro de " + AllTrim(Str(Year(dAtual)))
+// elseif Month(dAtual) = 12
+//     cMensagem := cMensagem + " Dezembro de " + AllTrim(Str(Year(dAtual)))
+// endif
+
+
+@ 01,00 to 07,35 color cCorSeguradora1
+@ 02,01 say "SEGUROS E CIA" color cCorSeguradora1
+@ 03,01 to 03,34 color cCorSeguradora1
+@ 04,02 say "Mensal.....:" + Transform(nSeguradora1ValorAnual/12, "@E 99999.99") color cCorSeguradora1
+@ 05,02 say "Trimestral.:" + Transform((nSeguradora1ValorAnual/12) * 3, "@E 99999.99") color cCorSeguradora1
+@ 06,02 say "Valor Anual:" + Transform(nSeguradora1ValorAnual, "@E 99999.99") color cCorSeguradora1
+
+@ 01,37 to 07,72 color cCorSeguradora2
+@ 02,38 say "AUTO SEGUROS S A" color cCorSeguradora2
+@ 03,38 to 03,71 color cCorSeguradora2
+@ 04,39 say "Mensal.....:" + Transform(nSeguradora2ValorAnual/12, "@E 99999.99") color cCorSeguradora2
+@ 05,39 say "Trimestral.:" + Transform((nSeguradora2ValorAnual)/12 * 3, "@E 99999.99") color cCorSeguradora2
+@ 06,39 say "Valor Anual:" + Transform(nSeguradora2ValorAnual, "@E 99999.99") color cCorSeguradora2
+
+
 
 @ 10,02 say cMensagem
 Inkey(0)
