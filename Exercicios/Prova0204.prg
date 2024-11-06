@@ -203,37 +203,41 @@ clear
 
 cMensagem := Space(25)
 
-// nUltimoDia := day(dAtual) + 31
+nDifenca := 31 - day(dAtual)
 
-// nDifenca := nUltimoDia - 31
+nUltimoDia := day(dAtual) + nDifenca
 
-// nUltimoDia := nUltimoDia - nDifenca
+if nUltimoDia = 1
+    nUltimoDia := 30
+endif
 
-// if Month(dAtual) = 01
-//     cMensagem := cMensagem + " Janeiro de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 02
-//     cMensagem := cMensagem + " Fevereiro de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 03
-//     cMensagem := cMensagem + " Marco de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 04
-//     cMensagem := cMensagem + " Abril de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 05
-//     cMensagem := cMensagem + " Maio de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 06
-//     cMensagem := cMensagem + " Junho de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 07
-//     cMensagem := cMensagem + " Julho de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 08
-//     cMensagem := cMensagem + " Agosto de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 09
-//     cMensagem := cMensagem + " Setembro de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 10
-//     cMensagem := cMensagem + " Outubro de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 11
-//     cMensagem := cMensagem + " Novembro de " + AllTrim(Str(Year(dAtual)))
-// elseif Month(dAtual) = 12
-//     cMensagem := cMensagem + " Dezembro de " + AllTrim(Str(Year(dAtual)))
-// endif
+if Month(dAtual) = 01 //31
+    cMensagem := cMensagem + " Janeiro de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 02
+    cMensagem := cMensagem + " Fevereiro de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 03
+    cMensagem := cMensagem + " Marco de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 04
+    cMensagem := cMensagem + " Abril de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 05
+    cMensagem := cMensagem + " Maio de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 06
+    cMensagem := cMensagem + " Junho de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 07
+    cMensagem := cMensagem + " Julho de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 08
+    cMensagem := cMensagem + " Agosto de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 09
+    cMensagem := cMensagem + " Setembro de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 10
+    cMensagem := cMensagem + " Outubro de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 11
+    cMensagem := cMensagem + " Novembro de " + AllTrim(Str(Year(dAtual)))
+elseif Month(dAtual) = 12
+    cMensagem := cMensagem + " Dezembro de " + AllTrim(Str(Year(dAtual)))
+endif
+
+cMensagem := "Cotacao valida ate " + AllTrim(Str(nUltimoDia))
 
 
 @ 01,00 to 07,35 color cCorSeguradora1
@@ -249,8 +253,6 @@ cMensagem := Space(25)
 @ 04,39 say "Mensal.....:" + Transform(nSeguradora2ValorAnual/12, "@E 99999.99") color cCorSeguradora2
 @ 05,39 say "Trimestral.:" + Transform((nSeguradora2ValorAnual)/12 * 3, "@E 99999.99") color cCorSeguradora2
 @ 06,39 say "Valor Anual:" + Transform(nSeguradora2ValorAnual, "@E 99999.99") color cCorSeguradora2
-
-
 
 @ 10,02 say cMensagem
 Inkey(0)
