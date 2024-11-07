@@ -3,6 +3,8 @@
 set date brit 
 set epoch to 1930
 set century on
+set message to 12 //A mensagem sera exibida na tela
+set wrap on //Volta para a primeira opcao do menu dinamico
 
 clear 
 
@@ -10,27 +12,24 @@ clear
 
 dAtual       := Date()
 nCodigo      := 1
-dCadastro    := dAtual
+dCadastro    := dAtual 
 
-cCodigoTodos := ""
 cSenhaTodos  := ""
 cDatasTodos  := ""
+nOpcao := 0
 
 // Processamento
 
 do while .t.
     clear
-    @ 00,00 to 10,50 double
-    @ 01,20 say "Menu de Opcoes"
-    @ 02,02 say "1- Cadastrar"
-    @ 03,02 say "2- Consultar"
-    @ 04,02 say "3- Sair"
-    @ 06,02 say "Opcao:"
-
-    nOpcao := 0
     
-    @ 06,09 get nOpcao picture "9" valid nOpcao > 0 .and. nOpcao <= 3
-    read
+    @ 00,00 to 10,50 double
+    
+    @ 01,20 say "Menu de Opcoes"
+    @ 02,02 prompt "Cadastrar" message "Cadatrar Senha" // Estrutura usada para criar um menu dinamico
+    @ 03,02 prompt "Consultar" message "Consultar Senha"
+    @ 04,02 prompt "Sair"      message "Sair do Programa"
+    menu to nOpcao
      
     if nOpcao = 1 //Cadastrar
         @ 01,01 clear to 09,49
@@ -52,10 +51,8 @@ do while .t.
                     exit
                 endif
             endif
-
-            cSenha := AllTrim(cSenha)
             
-            if Len(cSenha) < 8
+            if Len(AllTrim(cSenha)) < 8
                 Alert("A senha deve ter no minimo 8 caracteres!")
                 loop
             endif
@@ -111,8 +108,6 @@ do while .t.
                 loop
             endif
 
-            cSenha += "|"
-            cCodigoTodos += AllTrim(Str(nCodigo))
             cSenhaTodos  += cSenha 
             cDatasTodos  += DtoC(dCadastro)
             nCodigo++
@@ -123,48 +118,32 @@ do while .t.
             if cSenhaTodos == ""
                 Alert("Nao existe senhas cadastradas!")
             else
-                nCodPesquisa := 0
-                @ 01,02 say "Codigo:"
-                @ 01,10 get nCodPesquisa picture "999" valid nCodPesquisa > 0
-                read
+                do while .t.
+                    nCodPesquisa := 0
+                    @ 01,02 say "Codigo:"
+                    @ 01,10 get nCodPesquisa picture "999" valid nCodPesquisa > 0
+                    read
 
-                if LastKey() == 27
-                    nOpcao := Alert('Menu de Opcoes - Cadastro', {'Sair', 'Continuar'})
-                    if nOpcao = 2 .or. nOpcao = 0
-                        loop
-                    else
-                        exit
+                    if LastKey() == 27
+                        nOpcao2 := Alert('Menu de Opcoes - Cadastro', {'Sair', 'Continuar'})
+                        if nOpcao2 = 2 .or. nOpcao2 = 0
+                            loop
+                        else
+                            exit
+                        endif
                     endif
-                endif
-
-                lAchou := .f.
-
-                do while lAchou != .t.
-                    if Str(nCodPesquisa) $ cCodigoTodos
-                        nJ              := 1
-                        nContador       := 0
-                        do while .t.
-                            cCaractere := SubStr(cSenhaTodos, nJ++, 1)
-                            if (cCaractere == '|')
-                                //Pipe passados
-                                nContador++
-                                if nContador = nCodPesquisa
-                                    nPosicaoInicial := nJ
-                                endif
-                            endif
-
-                            if nContador > nCodPesquisa 
-                                @ 02,02 say "Senha........: " + SubStr(cSenhaTodos, nPosicaoInicial, nJ - nPosicaoInicial)
-                                lAchou := .t.
-                                exit
-                            endif
-                        enddo
+                    
+                    if nCodPesquisa < nCodigo
+                        @ 03,02 say "Codigo.......: " + Str(nCodPesquisa)
+                        @ 04,02 say "Senha........: " + AllTrim(SubStr(cSenhaTodos, nCodPesquisa * 12 - 11, 12)) // Para recuperar os dados salvos numa string deve usar: Codigo * tamanho da senha - (tamanho da senha - 1)
+                        @ 05,02 say "Data.........: " + AllTrim(SubStr(cDatasTodos, nCodPesquisa * 10 - 9, 10))
+                        InKey(0)
+                        exit
                     else
                         Alert("O Codigo digitado nao existe")
-                        exit
+                        loop
                     endif
                 enddo
-
             endif
         else
             exit
@@ -176,5 +155,4 @@ enddo
 
 clear
 
-@ 12,01 say ""
 Inkey(0)
