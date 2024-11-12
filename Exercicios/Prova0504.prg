@@ -10,10 +10,10 @@ clear
 
 // Variaveis
 
-dAtual             := Date()
-nOpcao             := 0
-nNumPedido         := 1
-nValorTotalCompra  := 0
+dAtual               := Date()
+nOpcao               := 0
+nNumPedido           := 1
+nValorTotalCompra    := 0
 
 nEstoqueGeralAmora   := 110
 nEstoqueGeralUva     := 198.5
@@ -89,10 +89,11 @@ do while .t.
 
                     do while .t.
                         @ 03,01 clear to 21,59
+
                         nQuantidadeCompra := 0
                         nDesconto         := 0
                         nTotal            := 0
-                        nCodigo := 0
+                        nCodigo           := 0
 
                         nCodigoProduto    := 0
                         cDescricaoProduto := ""
@@ -121,28 +122,32 @@ do while .t.
                         @ 03,01 clear to 21,59
 
                         if nCodigo = 5500
-                            nCodigoProduto = nCodigo
+
+                            nCodigoProduto    := nCodigo
                             cDescricaoProduto := "Amora preta"
                             nPrecoProduto     := 1.50
                             nDescontoProduto  := 12
                             nEstoqueProduto   := nEstoqueGeralAmora
 
                         elseif nCodigo = 7744
-                            nCodigoProduto = nCodigo
+                            
+                            nCodigoProduto    := nCodigo
                             cDescricaoProduto := "Uva Rubi"
                             nPrecoProduto     := 8
                             nDescontoProduto  := 11
                             nEstoqueProduto   := nEstoqueGeralUva
 
                         elseif nCodigo = 4445
-                            nCodigoProduto = nCodigo
+
+                            nCodigoProduto    := nCodigo
                             cDescricaoProduto := "Pepino"
                             nPrecoProduto     := 3.99
                             nDescontoProduto  := 2
                             nEstoqueProduto   := nEstoqueGeralPepino
 
                         elseif nCodigo = 6565
-                            nCodigoProduto = nCodigo
+
+                            nCodigoProduto    := nCodigo
                             cDescricaoProduto := "Morango"
                             nPrecoProduto     := 15.59
                             nDescontoProduto  := 6
@@ -151,6 +156,7 @@ do while .t.
                             Alert("O codigo digitado nao existe")
                             exit
                         endif
+                        
                         @ 03,02 say "Codigo.......................: " + AllTrim(Str(nCodigoProduto))
                         @ 04,02 say "Descricao....................: " + AllTrim(cDescricaoProduto)
                         @ 05,02 say "Preco Unitario...............: " + Transform(nPrecoProduto, "@E 99.99")
@@ -173,7 +179,7 @@ do while .t.
                             nTotal := nPrecoProduto * nQuantidadeCompra
                             if nTotal <= nLimiteCredito
                                 //Compra Realizada
-                                nLimiteCredito -= nTotal
+                                nLimiteCredito    -= nTotal
                                 nValorTotalCompra += nTotal
                             else    
                                 Alert("Limite insuficiente para realizar a compra")

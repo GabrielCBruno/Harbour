@@ -7,7 +7,7 @@ clear
 
 // Variaveis
 
-nOpcao       := 0
+nOpcao := 0
 
 // Processamento
 
@@ -15,7 +15,7 @@ nOpcao       := 0
 
 do while .t.
 
-    @ 03,01 clear to 15,56
+    @ 03,01 clear to 20,56
 
     @ 03,15 say "Jogo da Forca"
 
@@ -38,7 +38,7 @@ do while .t.
 
         @ 05,24 get cNomeParticipante picture "@!" valid !Empty(cNomeParticipante)
         @ 06,24 get cDificuldade      picture "@!" valid cDificuldade $ "FMD"
-        @ 07,24 get cPalavraChave     picture "@!" valid !Empty(cPalavraChave)
+        @ 07,24 get cPalavraChave     picture "@!" valid !Empty(cPalavraChave) color "w/w"
         read 
 
         if LastKey() == 27
@@ -77,18 +77,19 @@ do while .t.
         @ 05,01 clear to 15,56
 
         cLetrasDigitadas := ""
-        @ 08,02 say "Palavra Formada....: "
-        @ 08,22 say cPalavraChave color "n/n"
         
         @ 05,02 say "A Palavra Chave possui " + AllTrim(Str(Len(cPalavraChave))) + " Letras."
         nLetrasFalta := 0
 
+        cPalavraMisteriosa := Space(Len(cPalavraChave))
+
         do while .t.
-            cLetra          := Space(1)
-            cPalavraFormada := Space(Len(cPalavraChave))
+            cLetra             := Space(1)
+            nTamanho           := Len(cPalavraChave) 
             
             @ 07,02 say "Letras ja ditadas..: " + cLetrasDigitadas
-
+            @ 08,02 say "Palavra Formada....: " + cPalavraMisteriosa color "w/n"
+            
             @ 10,02 say "Digite uma Letra...: "
             @ 10,23 get cLetra picture "@!" valid !Empty(cLetra)
             read
@@ -100,7 +101,8 @@ do while .t.
                 endif
             endif
 
-            if cLetra $ cLetrasDigitadas
+            
+            if cLetra $ cLetrasDigitadas     
                 Alert("A letra ja foi digitada")
                 loop
             else
@@ -108,45 +110,104 @@ do while .t.
                     //Acertou
                     Alert("Acertou")
 
-                    nPosicao := 1
-                    nColuna  := 22
-                    
                     cLetrasDigitadas += cLetra
                     cLetrasDigitadas += " "
                     
-                    if nLetrasFalta = Len(cPalavraChave)
-                        Alert("Voce Ganhou! A palavra era: " + cPalavraChave)
+                    do while nTamanho > 0
+
+                        if cLetra == SubStr(cPalavraChave, nTamanho, 1)
+                            cPalavraMisteriosa := SubStr(cPalavraMisteriosa, 1, nTamanho - 1) + cLetra + SubStr(cPalavraMisteriosa, nTamanho + 1)
+                        endif
+
+                        nTamanho--
+                    enddo
+
+                    if AllTrim(cPalavraMisteriosa) == AllTrim(cPalavraChave)
+                        Alert( 'Voce Ganhou! A palavra chave era: ' + cPalavraChave)
                         exit
                     endif
-
-                    
-                    do while nPosicao < Len(cPalavraChave)
-                        if cLetra == SubStr(cPalavraChave, nPosicao, 1)
-                            nColuna := nColuna + nPosicao
-                            nLetrasFalta++
-                            @ 08,nColuna say SubStr(cPalavraChave, nPosicao, 1)  color "w/n"
-                        endif
-                        nPosicao++
-                    enddo
                 else
                     //Errou
                     Alert("Errou")
                     nErros++
 
+                    cLetrasDigitadas += cLetra
+                    cLetrasDigitadas += " "
+
+                    lMorreu := .f.
+
                     if cDificuldade == 'F'
-                        if nErros = 2
+                        if nErros = 1
+                            @ 12,32 say "(-_-)"
+                        elseif nErros = 2
                             //Dica 1
+                            @ 13,34 say "|"
+                            @ 14,34 say "|"
                             @ 12,02 say "Dica 1: " + AllTrim(cDica1)
                         elseif nErros = 3
                             //Dica 2
+                            @ 13,33 say "/"
+                            @ 13,35 say "\"
                             @ 14,02 say "Dica 2: " + AllTrim(cDica2)
                         elseif nErros = 4
                             //Dica 3
+                            @ 15,33 say "/"
+                            @ 15,35 say "\"
                             @ 16,02 say "Dica 3: " + AllTrim(cDica3)
+                        elseif nErros = 5
+                            @ 15,32 say "_"
+                            @ 15,36 say "_"
+                        endif
+                    else
+                        if cDificuldade == 'M'
+                            if nErros = 1
+                                @ 12,32 say "(-_-)"
+                            elseif nErros = 2
+                                @ 13,34 say "|"
+                                @ 14,34 say "|"
+                            elseif nErros = 3
+                                @ 13,33 say "/"
+                                @ 13,35 say "\"
+                            elseif nErros = 4
+                                @ 15,33 say "/"
+                                @ 15,35 say "\"
+                                @ 15,32 say "_"
+                                @ 15,36 say "_"
+                            endif
+                        else
+                            if nErros = 1
+                                @ 12,32 say "(-_-)"
+                            elseif nErros = 2
+                                @ 13,34 say "|"
+                                @ 14,34 say "|"
+                            elseif nErros = 3
+                                @ 13,33 say "/"
+                                @ 13,35 say "\"
+                                @ 15,33 say "/"
+                                @ 15,35 say "\"
+                                @ 15,32 say "_"
+                                @ 15,36 say "_"
+                            endif
                         endif
                     endif
 
+                    // Boneco Homem Palito
+                    //   ___
+                    //    |
+                    //    |
+                    //  (-_-) // Erro 1
+                    //   /|\
+                    //    |
+                    //  _/ \_
+                    //  
+                    //    
+
                     if nErros = nChances
+                        @ 09,33 say "___"
+                        @ 10,34 say "|"
+                        @ 11,34 say "|"
+                        @ 23,02 say ""
+                        InKey(0)
                         Alert("Voce Perdeu")
                         exit
                     endif
@@ -159,6 +220,6 @@ do while .t.
     endif
 enddo
 
-@ 20,02 say ""
+@ 23,02 say ""
 
 Inkey(0)
